@@ -1,16 +1,19 @@
+var CIRCLE_PER_ROW = 4;
+var ROW = 3;
 var SQUARE_NUM = 8;
 var SQUARE_WIDTH = getWidth() / SQUARE_NUM;
 var SQUARE_HEIGHT = SQUARE_WIDTH;
-
+var RADIUS = SQUARE_WIDTH / 2 - SQUARE_WIDTH / 10;
 function start() {
     board();
+    checkers();
 }
 
 function board() { //(ეს ფუნქცია დახატავს boardს რომელზეც იქნება შავ-თეთრი კვადრატები)
 
-    var square_color;
+    var square_CIRCLE_NUMcolor;
     var bw = 0;
-    
+    var square_color;
     
     for( var i = 0; i < 8; i++ ){
     
@@ -20,7 +23,7 @@ function board() { //(ეს ფუნქცია დახატავს boar
         for( var b = 0; b < SQUARE_NUM; b++ ){
             var squareX = b * SQUARE_WIDTH;
             if ( b%2 == bw ){
-                square_color = Color.white; 
+                square_color = Color.gray; 
             }else{
                 square_color = Color.black;
             }
@@ -37,7 +40,35 @@ function drawSquare(x, y, color){
     square.setColor(color);
     add(square);
 }
-//function checkers() //(ეს ფუნქცია შექმნის 12 შავ და 12 თეთრ დამკის ქვას, რომელიც იქნება თითოეული მოთამაშის ობიექტი)
+
+
+
+function checkers(){
+    var circleY = SQUARE_WIDTH/2;
+    
+    for(var a = 0; a < ROW; a++){
+        circleY = circleY + 2 * RADIUS * a + SQUARE_WIDTH / 10 * 2 * a;
+        for(var c = 0; c < CIRCLE_PER_ROW; c++){
+            if (a % 2 == 0){
+                var circleX = SQUARE_WIDTH*1.5 + c * SQUARE_WIDTH * 2;
+            }else{
+                var circleX = SQUARE_WIDTH*0.5 + c * SQUARE_WIDTH * 2;
+            }
+            drawCircle(circleX, circleY, Color.white);
+        
+   
+        }
+    }
+    
+} //(ეს ფუნქცია შექმნის 12 შავ და 12 თეთრ დამკის ქვას, რომელიც იქნება თითოეული მოთამაშის ობიექტი)
+
+function drawCircle(x, y, color){
+    var circle = new Circle(RADIUS);
+    circle.setPosition(x,y);
+    circle.setColor(color);
+    add(circle);
+}
+
 
 //selectCheckers() //(ეს ფუნქცია აირჩევს მოთამაშის მიერ არჩეულ სათამაშო ქვას)
 
