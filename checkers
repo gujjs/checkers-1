@@ -3,7 +3,9 @@ var ROW = 3;
 var SQUARE_NUM = 8;
 var SQUARE_WIDTH = getWidth() / SQUARE_NUM;
 var SQUARE_HEIGHT = SQUARE_WIDTH;
-var RADIUS = SQUARE_WIDTH / 2 - SQUARE_WIDTH / 10;
+var CIRCLE_OFFSET = SQUARE_WIDTH / 10;
+var RADIUS = SQUARE_WIDTH / 2 - CIRCLE_OFFSET;
+
 function start() {
     board();
     checkers();
@@ -41,13 +43,11 @@ function drawSquare(x, y, color){
     add(square);
 }
 
-
-
 function checkers(){
-    var circleY = SQUARE_WIDTH/2;
+    var circleY;
     
     for(var a = 0; a < ROW; a++){
-        circleY = circleY + 2 * RADIUS * a + SQUARE_WIDTH / 10 * 2 * a;
+        circleY = SQUARE_WIDTH / 2 + 2 * RADIUS * a + CIRCLE_OFFSET * 2 * a;
         for(var c = 0; c < CIRCLE_PER_ROW; c++){
             if (a % 2 == 0){
                 var circleX = SQUARE_WIDTH*1.5 + c * SQUARE_WIDTH * 2;
