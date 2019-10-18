@@ -1,0 +1,52 @@
+var SQUARE_NUM = 8;
+var SQUARE_WIDTH = getWidth() / SQUARE_NUM;
+var SQUARE_HEIGHT = SQUARE_WIDTH;
+
+function start() {
+    board();
+}
+
+function board() { //(ეს ფუნქცია დახატავს boardს რომელზეც იქნება შავ-თეთრი კვადრატები)
+
+    var square_color;
+    var bw = 0;
+    
+    
+    for( var i = 0; i < 8; i++ ){
+    
+    var squareY = i * SQUARE_HEIGHT;
+    bw = i%2;
+        
+        for( var b = 0; b < SQUARE_NUM; b++ ){
+            var squareX = b * SQUARE_WIDTH;
+            if ( b%2 == bw ){
+                square_color = Color.white; 
+            }else{
+                square_color = Color.black;
+            }
+            drawSquare(squareX, squareY, square_color);
+
+        }
+    
+    }
+
+}
+function drawSquare(x, y, color){
+    var square = new Rectangle(SQUARE_WIDTH, SQUARE_HEIGHT);
+    square.setPosition(x,y);
+    square.setColor(color);
+    add(square);
+}
+//function checkers() //(ეს ფუნქცია შექმნის 12 შავ და 12 თეთრ დამკის ქვას, რომელიც იქნება თითოეული მოთამაშის ობიექტი)
+
+//selectCheckers() //(ეს ფუნქცია აირჩევს მოთამაშის მიერ არჩეულ სათამაშო ქვას)
+
+//checkersPath() //(ეს ფუნქცია მოთამაშეს უჩვენებს სად შეუძლია მის არჩეულ ქვას გადაადგილება, ასევე თუ არსებობს მოწინააღმდეგის ქვა აჩვენებს მოთამაშეს ქვის მოკვლის შესაძლებლობას)
+
+//moveCheckers() //(ეს ფუნქცია გადაადგილებს მოთამაშის მიერ არჩეულ ქვას შესაბამის ადგილას)
+
+//killCheckers() //თუ მოთამაშე გადაწყვეტს მოწინააღმეგის ფიგურის მოკვლას მაშინ გამოძახებული იქნება ეს ფუნქცია, ფუნქცია წაშლის მოწინააღმდეგის ქვას და გადაადგილებს მოთამაშის ქვას შესაბამის ადგილას, ასევე მოუმატებს მოთამაშეს ერთ ქულას)
+
+//function checkWin() } //(ეს ფუნქცია შეამოწმებს რომელიმე მხარეს თუ აქვს 12 ქულა და თუ ეს დადასტურდება , შესაბამის შემთხვევაში მოთამაშეს გამოცხადებს გამარჯვებულად და დაასრულებს თამაშს)
+
+//{
