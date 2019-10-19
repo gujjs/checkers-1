@@ -1,16 +1,24 @@
+var CIRCLE_PER_ROW = 4;
+var ROW = 3;
 var SQUARE_NUM = 8;
 var SQUARE_WIDTH = getWidth() / SQUARE_NUM;
 var SQUARE_HEIGHT = SQUARE_WIDTH;
+var RADIUS = SQUARE_WIDTH / 2 - SQUARE_WIDTH / 10;
+var NUMB = 0;
+var NUMW = 0;
 
+var elem;
 function start() {
     board();
+    checkers();
+    mouseClickMethod(selectCheckers);
 }
 
 function board() { //(ეს ფუნქცია დახატავს boardს რომელზეც იქნება შავ-თეთრი კვადრატები)
 
-    var square_color;
+    var square_CIRCLE_NUMcolor;
     var bw = 0;
-    
+    var square_color;
     
     for( var i = 0; i < 8; i++ ){
     
@@ -20,7 +28,7 @@ function board() { //(ეს ფუნქცია დახატავს boar
         for( var b = 0; b < SQUARE_NUM; b++ ){
             var squareX = b * SQUARE_WIDTH;
             if ( b%2 == bw ){
-                square_color = Color.white; 
+                square_color = Color.gray; 
             }else{
                 square_color = Color.black;
             }
@@ -37,13 +45,129 @@ function drawSquare(x, y, color){
     square.setColor(color);
     add(square);
 }
-//function checkers() //(ეს ფუნქცია შექმნის 12 შავ და 12 თეთრ დამკის ქვას, რომელიც იქნება თითოეული მოთამაშის ობიექტი)
+function checkers(){
+    var circleY = SQUARE_WIDTH/2;
+    
+    for(var a = 0; a < ROW; a++){
+        circleY = SQUARE_WIDTH/2 + 2 * RADIUS * a + SQUARE_WIDTH / 10 * 2 * a;
+        for(var c = 0; c < CIRCLE_PER_ROW; c++){
+            if (a % 2 == 0){
+                var circleX = SQUARE_WIDTH*1.5 + c * SQUARE_WIDTH * 2;
+            }else{
+                var circleX = SQUARE_WIDTH*0.5 + c * SQUARE_WIDTH * 2;
+            }
+            drawCircle(circleX, circleY, Color.white, RADIUS);
+        
+   
+        }
+    }
+    var circleY = SQUARE_WIDTH * 5.5;
+    for(var g = 0; g < ROW; g++){
+        circleY = SQUARE_WIDTH * 5.5 + SQUARE_WIDTH * g;
+        for(var k = 0; k<CIRCLE_PER_ROW; k++){
+            
+            if (g % 2 == 0){
+                var circleX = SQUARE_WIDTH*0.5 + k * SQUARE_WIDTH * 2;
+                
+            }else{
+                var circleX = SQUARE_WIDTH*1.5 + k * SQUARE_WIDTH * 2;
+            }
+            drawCircle(circleX, circleY, Color.gray, RADIUS+2);
+        }
+    }
+    var circleY = SQUARE_WIDTH * 5.5;
+    for(var g = 0; g < ROW; g++){
+        circleY = SQUARE_WIDTH * 5.5 + SQUARE_WIDTH * g;
+        for(var k = 0; k<CIRCLE_PER_ROW; k++){
+            
+            if (g % 2 == 0){
+                var circleX = SQUARE_WIDTH*0.5 + k * SQUARE_WIDTH * 2;
+                
+            }else{
+                var circleX = SQUARE_WIDTH*1.5 + k * SQUARE_WIDTH * 2;
+            }
+            drawCircle(circleX, circleY, Color.black, RADIUS);
+        }
+    }
+    
+    
+} //(ეს ფუნქცია შექმნის 12 შავ და 12 თეთრ დამკის ქვას, რომელიც იქნება თითოეული მოთამაშის ობიექტი)
+function drawCircle(x, y, color, radius){
+    var circle = new Circle(radius);
+    circle.setPosition(x,y);
+    circle.setColor(color);
+    add(circle);
+}
+function selectCheckers(e){ //(ეს ფუნქცია აირჩევს მოთამაშის მიერ არჩეულ სათამაშო ქვას)
+    elem = getElementAt(e.getX(), e.getY());
+    
+    selectBlack(elem);
+    selectWhite(elem);
+    
+    ///////////////////////
+    
+}
+function selectWhite(ELEMENT){
+    //var num = 0;
+    if(ELEMENT!=null){
+        if(ELEMENT.getType() == "Circle" &&  ELEMENT.getColor() == "#FFFFFF" && NUMW % 2 == 0 ){
+            ELEMENT.setColor(Color.green);
+            checkersPath(ELEMENT);
+            NUMW += 1;
+        }else if(ELEMENT.getType() == "Circle" &&  ELEMENT.getColor() == "#00FF00" && NUMW % 2 == 1){
+            ELEMENT.setColor(Color.white); 
+            //var del_right = getElementAt(elem.getX()+SQUARE_WIDTH*0.5,elem.getY()-SQUARE_WIDTH*1.5);
+            //var del_left = getElementAt(elem.getX()-SQUARE_WIDTH*1.5,elem.getY()-SQUARE_WIDTH*1.5);
+            //if(del_right != null && del_right.getColor() == "#FFFFFF"){
+            //    remove(del_right);
+            //}
+            //if(del_left != null && del_left.getColor() == "#FFFFFF"){
+            //    remove(del_left);
+            //}
+            
+            NUMW += 1; 
+        }
+    }
+}
+function selectBlack(ELEMENT){
+    //var num;
+    if(ELEMENT!=null){
+        if(ELEMENT.getType() == "Circle" &&  ELEMENT.getColor() == "#000000" && NUMB % 2 == 0 ){
+            ELEMENT.setColor(Color.green);
+            checkersPath(ELEMENT);
+            NUMB += 1;
+        }else if(ELEMENT.getType() == "Circle" &&  ELEMENT.getColor() == "#00FF00" && NUMB % 2 == 1){
+            ELEMENT.setColor(Color.black); 
+            var del_right = getElementAt(ELEMENT.getX()+SQUARE_WIDTH*0.5,ELEMENT.getY()-SQUARE_WIDTH*1.5);
+            var del_left = getElementAt(ELEMENT.getX()-SQUARE_WIDTH*1.5,ELEMENT.getY()-SQUARE_WIDTH*1.5);
+            if(del_right != null && del_right.getColor() == "#00FF00"){
+                remove(del_right);
+            }
+            if(del_left != null && del_left.getColor() == "#00FF00"){
+                remove(del_left);
+            }
+            
+            NUMB += 1; 
+        }
+    }
+}
 
-//selectCheckers() //(ეს ფუნქცია აირჩევს მოთამაშის მიერ არჩეულ სათამაშო ქვას)
+function checkersPath(ELEMENT){ //(ეს ფუნქცია მოთამაშეს უჩვენებს სად შეუძლია მის არჩეულ ქვას გადაადგილება, ასევე თუ არსებობს მოწინააღმდეგის ქვა აჩვენებს მოთამაშეს ქვის მოკვლის შესაძლებლობას)
+    var checkLeft = getElementAt(ELEMENT.getX()-SQUARE_WIDTH, ELEMENT.getY()-SQUARE_WIDTH);
+    var checkRight = getElementAt(ELEMENT.getX()+SQUARE_WIDTH, ELEMENT.getY()-SQUARE_WIDTH);
+    
+    if(checkLeft != null && checkLeft.getType() == "Rectangle"){
+        drawSquare(ELEMENT.getX()-SQUARE_WIDTH*1.5,ELEMENT.getY()-SQUARE_WIDTH*1.5,Color.green);
+        
+    }
+    
+    if(checkRight != null && checkRight.getType() == "Rectangle"){
+        drawSquare(ELEMENT.getX()+SQUARE_WIDTH*0.5,ELEMENT.getY()-SQUARE_WIDTH*1.5,Color.green);
+    }
+}
 
-//checkersPath() //(ეს ფუნქცია მოთამაშეს უჩვენებს სად შეუძლია მის არჩეულ ქვას გადაადგილება, ასევე თუ არსებობს მოწინააღმდეგის ქვა აჩვენებს მოთამაშეს ქვის მოკვლის შესაძლებლობას)
 
-//moveCheckers() //(ეს ფუნქცია გადაადგილებს მოთამაშის მიერ არჩეულ ქვას შესაბამის ადგილას)
+//function moveCheckers() //(ეს ფუნქცია გადაადგილებს მოთამაშის მიერ არჩეულ ქვას შესაბამის ადგილას)
 
 //killCheckers() //თუ მოთამაშე გადაწყვეტს მოწინააღმეგის ფიგურის მოკვლას მაშინ გამოძახებული იქნება ეს ფუნქცია, ფუნქცია წაშლის მოწინააღმდეგის ქვას და გადაადგილებს მოთამაშის ქვას შესაბამის ადგილას, ასევე მოუმატებს მოთამაშეს ერთ ქულას)
 
